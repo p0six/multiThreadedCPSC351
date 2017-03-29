@@ -47,6 +47,9 @@ void * is_primer (void *s) {
 
 int main(int argc, char ** argv) {
     unsigned int n = std::thread::hardware_concurrency(); // on my rMBP, 8
+    if (n == 0) {
+        n = 16;
+    }
 
     //don't change this name print section or you won't get points:
     if (argc == 2 && strncmp(argv[1], "-n", 2) == 0) {
