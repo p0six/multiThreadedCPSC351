@@ -60,30 +60,31 @@ int main(int argc, char ** argv)
     vector<long long> v;
 
     char buffer[SIZE];
-    int i = 0;
+    int x = 0;
     int c = getchar();
     while (c != EOF) {
         if (isspace(c)) {
-            buffer[i] = '\0';
-            i = 0;
+            buffer[x] = '\0';
+            x = 0;
         } else if (isdigit(c)) {
-            buffer[i] = c;
-            i++;
+            buffer[x] = (char) c;
+            x++;
         }
 
-        if (i == SIZE - 1) {
-            buffer[i] = '\0';
-            i = 0;
+        if (x == SIZE - 1) {
+            buffer[x] = '\0';
+            x = 0;
         }
 
-        if (i == 0 && strnlen(buffer, SIZE) > 0) {
+        if (x == 0 && strnlen(buffer, SIZE) > 0) {
             long long num = atoll(buffer);
             v.push_back(num);
         }
+
         c = getchar();
     }
 
-    pthread_t tid [n];
+    pthread_t tid[n];
     long long y[n];
     while (v.size() != 0) {
         int m = n;
@@ -102,7 +103,7 @@ int main(int argc, char ** argv)
             pthread_join(tid[i], (void **) &resultPointer);
             bool result = *resultPointer; // get our actual value back out...
             if (result) {
-                printf("prime found: %d\n", y[i]);
+                printf("prime found: %lld\n", y[i]);
                 printf("return value: %d\n", PRIME);
                 auto end = chrono::high_resolution_clock::now();
                 std::chrono::duration<double> diff = end-start;
