@@ -101,8 +101,7 @@ int main(int argc, char ** argv) {
         for (int i = 0; i < m; i++) {
             bool *resultPointer;
             pthread_join(tid[i], (void **) &resultPointer);
-            bool result = *resultPointer; // get our actual value back out...
-            if (result) {
+            if (*resultPointer) {
                 printf("prime found: %lld\n", y[i]);
                 printf("return value: %d\n", PRIME);
                 returnCode = PRIME;
