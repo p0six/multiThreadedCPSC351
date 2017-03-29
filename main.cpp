@@ -45,8 +45,7 @@ void * is_primer (void *s) {
     pthread_exit(ret);
 }
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     unsigned int n = std::thread::hardware_concurrency(); // on my rMBP, 8
 
     //don't change this name print section or you won't get points:
@@ -86,9 +85,10 @@ int main(int argc, char ** argv)
 
     pthread_t tid[n];
     long long y[n];
+    int returnCode = NOPRIME;
     while (v.size() != 0) {
         int m = n;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) { // create one thread per n cores
             if (v.size() != 0) { // possible during final while iteration
                 y[i] = v.front();
                 v.erase(v.begin());
@@ -105,17 +105,16 @@ int main(int argc, char ** argv)
             if (result) {
                 printf("prime found: %lld\n", y[i]);
                 printf("return value: %d\n", PRIME);
-                auto end = chrono::high_resolution_clock::now();
-                std::chrono::duration<double> diff = end-start;
-                cout << "duration: " << diff.count() << endl;
-                return PRIME;
+                returnCode = PRIME;
+                goto exitOfWhile;
             }
         }
     }
-
     printf("return value: %d\n", NOPRIME);
+
+    exitOfWhile:
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> diff = end-start;
     cout << "duration: " << diff.count() << endl;
-    return NOPRIME;
+    return returnCode;
 }
