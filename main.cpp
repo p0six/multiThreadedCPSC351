@@ -108,6 +108,11 @@ int main(int argc, char ** argv) {
                 printf("prime found: %lld\n", y[i]);
                 printf("return value: %d\n", PRIME);
                 returnCode = PRIME;
+                for (int j = i+1; j < m; j++) { // close out all remaining threads
+                    // pthread_cancel(tid[j]) required a pthread_testcancel() in is_primer() which would have been pointless
+                    // if allowed to put prime testing in is_primer, should have improved speed
+                    pthread_join(tid[i], (void **) &resultPointer);
+                }
                 goto exitOfWhile;
             }
         }
